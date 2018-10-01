@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+
+<body>
+  <!-- 실습: 성별을 받아서 여성이면 MISS 를 남성이면 Mister 문자열을 %HERE$ 자리에 표시하세요
+    male, female 외에 다른 문자열을 입력하면 얼럿창을 띄우세요 -->
+
+  <div id="app">
+    <h1>Hello {{gender}} {{name}}</h1>
+    <p>성별을 입력하세요</p>
+    <!-- keyup.13 : 엔터키 눌렀을때 -->
+    <input type="text" v-on:keyup.13="genderMethod">
+    <p>성별 : {{gender}}</p>
+    <p>이름을 입력하세요</p>
+    <input type="text" v-on:keyup.13="setName">
+    <p>이름 : {{name}}</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        name: 'Anderson',
+        gender: '',
+      },
+      methods: {
+        setName: function(e){
+          this.name = e.target.value;
+        },
+        genderMethod(e) {
+          // alert(e.target.value);
+          var gen = e.target.value;
+          if (gen) {
+            switch (gen) {
+              case 'male':
+                this.gender = 'Mister';
+                break;
+              case 'female':
+                this.gender = 'MISS';
+                break;
+              default:
+                alert('male 혹은 female 을 입력하세요');
+            }
+          }
+        }
+      },
+    });
+  </script>
+
+</body>
+
+</html>

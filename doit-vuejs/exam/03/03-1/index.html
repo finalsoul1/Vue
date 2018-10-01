@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Vue Instance Lifecycle</title>
+  </head>
+  <body>
+    <div id="app">
+      {{ message }}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: 'Hello Vue.js!'
+        },
+        beforeCreate: function() {
+          console.log("beforeCreate");
+        },
+        created: function() {
+          console.log("created");
+        },
+        beforeMount: function() {
+          console.log("beforeMounted");
+        },
+        mounted: function() {
+          console.log("mounted");
+          this.message = 'Hello World!';
+          // 리액트는 직접 refresh 명령을 내려야 하지만,
+          // 앵귤러와 뷰는 자동으로 화면이 갱신된다.
+          console.log(app == this);
+
+          console.log(Object.keys(this));
+        },
+        beforeUpdate: function() {
+          console.log("beforeUpdate");
+        },
+        updated: function() {
+          console.log("updated");
+        },
+        beforeDestroy: function() {
+          console.log("beforeDestroy");
+        },
+        destroyed: function() {
+          console.log("destroyed");
+        }
+      });
+
+      // console.log(app);
+      console.log(Object.keys(app));
+      // ["_uid", "_isVue", "$options", "_renderProxy", "_self", "$parent", "$root",
+      //  "$children", "$refs", "_watcher", "_inactive", "_directInactive", "_isMounted",
+      //  "_isDestroyed", "_isBeingDestroyed", "_events", "_hasHookEvent", "_vnode",
+      //  "$vnode", "$slots", "$scopedSlots", "_c", "$createElement", "$attrs",
+      //  "$listeners", "_watchers", "_data", "message", "$el"]
+
+      console.log(app._data.message);
+
+    </script>
+  </body>
+</html>
