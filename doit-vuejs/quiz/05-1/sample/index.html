@@ -10,6 +10,7 @@
       <header>
         <h3>
           {{ message }},
+          {{ a }}
           <!-- #1. 새로 추가한 데이터 속성을 아래에 추가 -->
         </h3>
       </header>
@@ -30,6 +31,8 @@
           <li>2</li>
           <li>3</li>
         </ul>
+
+        <button type="button" name="button" v-on:click="startAlert($event)">alert</button>
       </section>
     </div>
 

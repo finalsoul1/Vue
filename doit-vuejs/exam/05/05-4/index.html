@@ -4,11 +4,14 @@
   </head>
   <body>
     <div id="app">
+      <!-- v-if = false 일 때, 해당 엘리먼트 전체가 사라집니다. -->
       <a v-if="flag">두잇 Vue.js</a>
+      <!-- v-show = false 일 때, display:none 됨, 실제 태그는 남아있음. -->
+      <p v-show="flag">두잇 Vue.js</p>
       <ul>
         <li v-for="system in systems">{{ system }}</li>
       </ul>
-      <p v-show="flag">두잇 Vue.js</p>
+
       <h5 v-bind:id="uid">뷰 입문서</h5>
       <button v-on:click="popupAlert">경고 창 버튼</button>
     </div>

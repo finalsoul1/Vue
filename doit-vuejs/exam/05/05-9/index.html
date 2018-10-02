@@ -5,6 +5,15 @@
   <body>
     <div id="app">
       <input v-model="message">
+      <!-- 초기에 message 값을 화면에 표시, 값을 수정하면 데이터 자동변경과 화면변경 -->
+      <p>{{message}}</p>
+      <hr>
+      <p>{{sum}}</p>
+      <hr>
+      <p>{{print}}</p>
+      <!-- computed 는 html 에서 일단 호출이 되어야 반복기동되고,
+           watch 는 html 에서 호출하지 않아도 변수의 변경에 따라 호출됨.
+       -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
@@ -12,11 +21,21 @@
       new Vue({
         el: '#app',
         data: {
-          message: 'Hello Vue.js!'
+          message: 'Hello Vue.js!',
+          sum:''
         },
         watch: {
+          // 함수명을 변수명과 일치시켜 작성하면 변수가 변경될 때
+          // 함수가 자동으로 기동합니다.
           message: function(data) {
             console.log("message의 값이 바뀝니다 : ", data);
+            this.sum += this.message;
+          }
+        },
+        computed: {
+          print: function () {
+            console.log('this.message = ' + this.message);
+            console.log('computed # print() called');
           }
         }
       });

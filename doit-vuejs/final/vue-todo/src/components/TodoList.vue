@@ -1,9 +1,14 @@
 <template>
   <section>
+    <!-- name= 변수: css에서 사용할 변수이름 -->
     <transition-group name="list" tag="ul">
       <li v-for="(todoItem, index) in propsdata" :key="todoItem" class="shadow">
         <i class="checkBtn fas fa-check" aria-hidden="true"></i>
-        {{ todoItem }}
+        <input v-if="false">
+        <span v-else>{{ todoItem }}</span>
+        <span class="editBtn" type="button" @click="removeTodo(todoItem, index)">
+          <i class="far fa-trash-alt" aria-hidden="true"></i>
+        </span>
         <span class="removeBtn" type="button" @click="removeTodo(todoItem, index)">
           <i class="far fa-trash-alt" aria-hidden="true"></i>
         </span>
@@ -15,7 +20,10 @@
 <script>
 export default {
   props: ['propsdata'],
+  // 자신이 직접 필요한 데이터를 갖고 있지 않고 부모 컴포넌트로부터 받아서
+  // 사용하는 방식으로 변경.
   methods: {
+    // 자식이 부모에게 이벤트를 보내는 방법
     removeTodo(todoItem, index) {
       this.$emit('removeTodo', todoItem, index);
     }
@@ -45,13 +53,18 @@ export default {
     color: #62acde;
     margin-right: 5px;
   }
-  .removeBtn {
+  .editBtn {
     margin-left: auto;
     color: #de4343;
   }
+  .removeBtn {
+    margin-left: 10px;
+    color: #de4343;
+  }
+
 
   .list-enter-active, .list-leave-active {
-    transition: all 1s;
+    transition: all 1.5s;
   }
   .list-enter, .list-leave-to {
     opacity: 0;

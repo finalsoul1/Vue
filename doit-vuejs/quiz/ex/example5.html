@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>calculator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+  <div class="container" id="app">
+    <h1>calculator</h1>
+    <form class="form-inline" action="index.html" method="post">
+      <input type="text" class="form-control" size="5" v-model.number="a">
+      <select class="form-control" v-model="c">
+        <option value="sum">+</option>
+        <option value="sub">-</option>
+        <option value="mul">*</option>
+        <option value="div">/</option>
+      </select>
+      <input type="text" class="form-control" size="5" v-model.number="b">
+      <button type="button" class="btn btn-danger" name="button" v-on:click="calc">Show</button>
+    </form>
+    <h2>Result: {{result}}</h2>
+    <pre>{{$data}}</pre>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+  <script type="text/javascript">
+    // 1. 기호를 셀렉트 박스로 변경
+    // 2. 사칙연산 기능을 추가하세요
+
+    new Vue({
+      el: '#app',
+      data: {
+        a: null,
+        b: null,
+        c: null,
+        result: null,
+      },
+      methods: {
+        // setA: function(e) {
+        //   // number 자료형으로 저장해야한다.
+        //   this.a = parseInt(e.target.value);
+        // },
+        // setB: function(e) {
+        //   this.b = parseInt(e.target.value);
+        // },
+        // sum: function () {
+        //   this.result = this.a + this.b;
+        // }
+        calc: function(e) {
+          console.log(e);
+          if (this.c === "sum") this.result = this.a + this.b;
+          if (this.c === "sub") this.result = this.a - this.b;
+          if (this.c === "mul") this.result = this.a * this.b;
+          if (this.c === "div") this.result = this.a / this.b;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
