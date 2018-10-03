@@ -8,7 +8,8 @@
       자식 컴포넌트에게 propsdata 라는 키값으로 todoItems 가 보유한 배열을
       전달합니다.
     -->
-    <TodoList v-bind:propsdata="todoItems" @removeTodo="removeTodo"></TodoList>
+    <TodoList v-bind:propsdata="todoItems" @removeTodo="removeTodo" @editTodo="editTodo"
+      @correct="correct"></TodoList>
     <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
@@ -33,18 +34,27 @@ export default {
       this.todoItems = [];
     },
 		addTodo(todoItem) {
-			localStorage.setItem(todoItem, todoItem);
-			this.todoItems.push(todoItem);
+      localStorage.setItem(todoItem, todoItem);
+      let todoObj = { value: todoItem, editOx: false }
+			this.todoItems.push(todoObj);
 		},
     removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem);
+      localStorage.removeItem(todoItem.value);
       this.todoItems.splice(index, 1);
+    },
+    editTodo(todoItem, index) {
+      todoItem.editOx = !todoItem.editOx;
+    },
+    correct(todoItem, index, a) {
+      this.addTodo(a);
+      this.removeTodo(todoItem, index);
     }
   },
   created() {
 		if (localStorage.length > 0) {
 			for (var i = 0; i < localStorage.length; i++) {
-				this.todoItems.push(localStorage.key(i));
+        let todoObj = { value: localStorage.key(i), editOx: false }
+				this.todoItems.push(todoObj);
 			}
 		}
   },
