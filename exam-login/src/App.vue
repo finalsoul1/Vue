@@ -16,20 +16,26 @@
           </ul>
         </li>
         <li>
-          <button type="button" name="button" @click="dbAdd">db</button>
+          <button type="button" name="button" @click="loginId">db</button>
+        </li>
+        <li id="test">
+          {{this.islogin}}
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <router-link to="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</router-link>
+          <router-link to="/register"><span class="glyphicon glyphicon-user"></span> 회원가입</router-link>
         </li>
-        <li>
-          <router-link to="/login"><span class="glyphicon glyphicon-log-in"></span> Login</router-link>
+        <li v-if="islogin">
+          <a href="#" @click="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a>
+        </li>
+        <li v-else>
+          <router-link to="/login"><span class="glyphicon glyphicon-log-in"></span> 로그인</router-link>
         </li>
       </ul>
     </div>
   </nav>
-  <router-view @addId="addId"></router-view>
+  <router-view :prop="logerror" @addId="addId" @loginId="loginId"></router-view>
 </div>
 </template>
 
@@ -37,8 +43,8 @@
 class idSet {
   constructor(id, pw, gender) {
     this.id = id,
-    this.pw = pw,
-    this.gender = gender
+      this.pw = pw,
+      this.gender = gender
   }
 }
 
@@ -46,20 +52,50 @@ export default {
   name: 'app',
   data() {
     return {
-      idset: null
+      idset: null,
+      islogin: false,
+      logerror: false
     }
   },
   methods: {
     addId(set) {
       console.log(set);
-      this.idset = set;
+      axios.get('http://localhost:3000/users').then(res => {
+        var info = res.data.find(a => a.id === set.id);
+        if (info) {
+          alert("ID가 중복되었습니다. 다시 입력해주시기 바랍니다.");
+          this.logerror = true;
+        } else {
+          alert(set.id + "님 가입축하드립니다");
+          axios.post('http://localhost:3000/users', set);
+          this.logerror = false;
+        }
+      });
     },
-    dbAdd() {
-      axios.post('http://localhost:3000/users', this.idset).then()
-    }
+    loginId(id, pw) {
+      console.log(id, pw);
+      axios.get('http://localhost:3000/users').then(res => {
+        var info = res.data.find(a => a.id === id && a.pw === pw);
+        if (info) {
+          // console.log("됨");
+          this.islogin = true;
+          alert("로그인에 성공하셨습니다");
+        }
+      });
+    },
+    logout() {
+      this.islogin = false;
+      alert("로그아웃 하셨습니다")
+    },
+    loginError() {
+      this.logerror = !this.logerror;
+    },
   },
 }
 </script>
 
 <style>
+#test {
+  color: white;
+}
 </style>

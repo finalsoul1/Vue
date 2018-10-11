@@ -8,6 +8,7 @@
         <div class="form-group">
           <label for="usr">ID:</label>
           <input type="text" class="form-control" v-model="id">
+          <p v-if="prop">id중복</p>
         </div>
         <div class="form-group">
           <label for="pwd">Password:</label>
@@ -42,7 +43,7 @@ class idSet {
 
 export default {
   name: 'register',
-  props: [],
+  props: ['prop'],
   mounted() {
 
   },
@@ -69,5 +70,7 @@ export default {
 </script>
 
 <style scoped>
-.register {}
+p {
+  color: red;
+}
 </style>
