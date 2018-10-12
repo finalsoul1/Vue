@@ -3,11 +3,9 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <!-- <a class="navbar-brand" href="#">WebSiteName</a> -->
         <router-link to="/home" class="navbar-brand">HOME</router-link>
       </div>
       <ul class="nav navbar-nav">
-        <!-- <li class="active"><a href="#">Home</a></li> -->
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Page 1-1</a></li>
@@ -40,11 +38,12 @@
 </template>
 
 <script>
+
 class idSet {
   constructor(id, pw, gender) {
     this.id = id,
-      this.pw = pw,
-      this.gender = gender
+    this.pw = pw,
+    this.gender = gender
   }
 }
 
@@ -79,6 +78,7 @@ export default {
         if (info) {
           // console.log("됨");
           this.islogin = true;
+          localStorage.setItem(id, id);
           alert("로그인에 성공하셨습니다");
         }
       });
