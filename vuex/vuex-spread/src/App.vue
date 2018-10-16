@@ -12,7 +12,9 @@
 
 <script>
 import Counter from './counter.vue'
-import {mapGetters} from 'vuex'
+import {
+  mapGetters, mapMutations
+} from 'vuex'
 
 export default {
   name: 'app',
@@ -23,21 +25,23 @@ export default {
   //   }
   // },
   methods: {
-    addCounter() {
-      this.$store.state.counter++;
-    },
-    subCounter() {
-      this.$store.state.counter--;
-    }
+    ...mapMutations([
+      'addCounter',
+      'subCounter'
+    ]),
+    // subCounter() {
+    //   this.$store.commit('subCounter');
+    // }
   },
   components: {
     // Child 컴포넌트를 하위 컴포넌트로 등록
     'counter': Counter
   },
-  computed:
+  computed: {
     ...mapGetters([
-    'getCounter'
-  ]),
+      'getCounter'
+    ]),
+  }
 }
 </script>
 

@@ -1,4 +1,4 @@
-# vuex-running
+# vuex-spread
 
 > A Vue.js project
 

@@ -11,5 +11,13 @@ export const store = new Vuex.Store({
     getCounter: function (state) {
       return state.counter;
     }
+  },
+  mutations: {
+    addCounter: function (state, payload) {
+      return state.counter++;
+    },
+    subCounter: function (state, payload) {
+      return state.counter--;
+    }
   }
 });

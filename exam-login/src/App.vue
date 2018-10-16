@@ -17,14 +17,14 @@
           <button type="button" name="button" @click="loginId">db</button>
         </li>
         <li id="test">
-          {{this.islogin}}
+          {{ getIslogin }}
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
           <router-link to="/register"><span class="glyphicon glyphicon-user"></span> 회원가입</router-link>
         </li>
-        <li v-if="islogin">
+        <li v-if="getIslogin">
           <a href="#" @click="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a>
         </li>
         <li v-else>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 
 class idSet {
   constructor(id, pw, gender) {
@@ -52,11 +53,14 @@ export default {
   data() {
     return {
       idset: null,
-      islogin: false,
-      logerror: false
+      logerror: false,
     }
   },
   methods: {
+    ...mapMutations([
+      'isLoginTrue',
+      'isLoginFalse',
+    ]),
     addId(set) {
       console.log(set);
       axios.get('http://localhost:3000/users').then(res => {
@@ -76,21 +80,30 @@ export default {
       axios.get('http://localhost:3000/users').then(res => {
         var info = res.data.find(a => a.id === id && a.pw === pw);
         if (info) {
-          // console.log("됨");
-          this.islogin = true;
+          this.isLoginTrue();
+          // this.islogin = true;
           localStorage.setItem(id, id);
           alert("로그인에 성공하셨습니다");
+          this.$router.push('/home');
         }
       });
     },
     logout() {
-      this.islogin = false;
+      // this.islogin = false;
       alert("로그아웃 하셨습니다")
     },
     loginError() {
       this.logerror = !this.logerror;
     },
   },
+  computed: {
+    ...mapGetters([
+      'getIslogin',
+    ]),
+  },
+  mounted: {
+
+  }
 }
 </script>
 
