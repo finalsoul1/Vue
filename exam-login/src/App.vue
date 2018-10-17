@@ -15,6 +15,7 @@
         </li>
         <li>
           <button type="button" name="button" @click="loginId">db</button>
+          <button type="button" name="button" @click="storageClear">clear</button>
         </li>
         <li id="test">
           {{ getIslogin }}
@@ -38,13 +39,16 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import {
+  mapGetters,
+  mapMutations
+} from 'vuex'
 
 class idSet {
   constructor(id, pw, gender) {
     this.id = id,
-    this.pw = pw,
-    this.gender = gender
+      this.pw = pw,
+      this.gender = gender
   }
 }
 
@@ -54,6 +58,7 @@ export default {
     return {
       idset: null,
       logerror: false,
+      localid: "",
     }
   },
   methods: {
@@ -90,18 +95,36 @@ export default {
     },
     logout() {
       // this.islogin = false;
+      localStorage.removeItem(this.idSet.id)
       alert("로그아웃 하셨습니다")
     },
     loginError() {
       this.logerror = !this.logerror;
     },
+    storageClear() {
+      localStorage.clear();
+    }
   },
   computed: {
     ...mapGetters([
       'getIslogin',
     ]),
   },
-  mounted: {
+  created() {
+    console.log(mapGetters);
+    axios.get('http://localhost:3000/users').then(res => {
+      for (var data of res.data) {
+        if (localStorage.length > 0) {
+          for (var i = 0; i < localStorage.length; i++) {
+            this.localid = localStorage.key(i);
+            if (data.id === this.localid) {
+              this.isLoginTrue();
+            }
+          }
+        }
+      }
+    })
+    console.log(this.localid);
 
   }
 }

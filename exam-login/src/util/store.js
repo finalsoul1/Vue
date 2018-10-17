@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
   getters: {
     getIslogin: function (state) {
       return state.islogin;
-    }
+    },
   },
   mutations: {
     isLoginTrue: function(state, payload) {
