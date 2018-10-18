@@ -23,12 +23,13 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <router-link to="/register"><span class="glyphicon glyphicon-user"></span> 회원가입</router-link>
+          <!-- <router-link to="/register"><span class="glyphicon glyphicon-user"></span> 회원가입</router-link> -->
         </li>
         <li v-if="getIslogin">
           <a href="#" @click="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a>
         </li>
         <li v-else>
+          <router-link to="/register"><span class="glyphicon glyphicon-user"></span> 회원가입</router-link>
           <router-link to="/login"><span class="glyphicon glyphicon-log-in"></span> 로그인</router-link>
         </li>
       </ul>
@@ -44,14 +45,6 @@ import {
   mapMutations
 } from 'vuex'
 
-class idSet {
-  constructor(id, pw, gender) {
-    this.id = id,
-      this.pw = pw,
-      this.gender = gender
-  }
-}
-
 export default {
   name: 'app',
   data() {
@@ -65,6 +58,7 @@ export default {
     ...mapMutations([
       'isLoginTrue',
       'isLoginFalse',
+      'setCurrentId',
     ]),
     addId(set) {
       console.log(set);
@@ -77,6 +71,7 @@ export default {
           alert(set.id + "님 가입축하드립니다");
           axios.post('http://localhost:3000/users', set);
           this.logerror = false;
+          this.$router.push('/login');
         }
       });
     },
@@ -86,7 +81,7 @@ export default {
         var info = res.data.find(a => a.id === id && a.pw === pw);
         if (info) {
           this.isLoginTrue();
-          // this.islogin = true;
+          this.setCurrentId(id);
           localStorage.setItem(id, id);
           alert("로그인에 성공하셨습니다");
           this.$router.push('/home');
@@ -94,8 +89,12 @@ export default {
       });
     },
     logout() {
-      // this.islogin = false;
-      localStorage.removeItem(this.idSet.id)
+      console.log(getIslogin);
+      this.idset = getcurrentId();
+      console.log(getcurrentId());
+      localStorage.removeItem(getcurrentId())
+      console.log(this.idset.id);
+      this.isLoginFalse();
       alert("로그아웃 하셨습니다")
     },
     loginError() {
@@ -108,6 +107,7 @@ export default {
   computed: {
     ...mapGetters([
       'getIslogin',
+      'getcurrentId',
     ]),
   },
   created() {
@@ -125,7 +125,6 @@ export default {
       }
     })
     console.log(this.localid);
-
   }
 }
 </script>
